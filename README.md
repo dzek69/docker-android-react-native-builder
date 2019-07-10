@@ -1,8 +1,9 @@
 # docker-android-react-native-builder
 
-> Version: 1.0.0
-
 Sources for Docker image that can be used to build React Native app for Android devices from source code.
+
+> Current version: 1.0.0\
+> Published as [dzek69/android-react-native-builder][4]
 
 ## Usage
 
@@ -15,21 +16,6 @@ Sources for Docker image that can be used to build React Native app for Android 
     
 1. App should have defined `package.json` script named `build:release:android` that starts the build process.
     > Usually `cd android && ./gradlew assembleRelease && cd ..` should be fine.
-
-### Notes
-
-1. `yarn`, not `npm` is used to install JS dependencies.
-1. If you need to login into npm for your installs use [auth tokens][1].
-    > Keep in mind yarn won't use tokens from environmental values.
-    > Use `.npmrc` file to specify auth token like that:
-    ```
-    //registry.npmjs.org/:_authToken=00000000-1111-2222-3333-444444444444
-    save-exact=true
-    ```
-1. Currently there is no feature written for handling app version and internal build number (see [here][2]).
-Prepare it before using this image to ensure app can be updated correctly.
-1. Currently there is no feature written for handling release keys/signing APK files (see [here][3]).
-Make sure everything is right before using this image to ensure app can be installed.
 
 ### Volumes
 
@@ -48,20 +34,37 @@ between builds.
 [1]: https://docs.npmjs.com/about-authentication-tokens
 [2]: https://developer.android.com/studio/publish/versioning
 [3]: https://facebook.github.io/react-native/docs/signed-apk-android
+[4]: https://hub.docker.com/r/dzek69/android-react-native-builder
+
+### Notes
+
+1. `yarn`, not `npm` is used to install JS dependencies.
+1. If you need to login into npm for your installs use [auth tokens][1].
+    > Keep in mind yarn won't use tokens from environmental values.\
+    Use `.npmrc` file to specify auth token like that:
+    ```
+    //registry.npmjs.org/:_authToken=00000000-1111-2222-3333-444444444444
+    save-exact=true
+    ```
+1. Currently there is no feature written for handling app version and internal build number (see [here][2]).
+Prepare it before using this image to ensure app can be updated correctly.
+1. Currently there is no feature written for handling release keys/signing APK files (see [here][3]).
+Make sure everything is right before using this image to ensure app can be installed.
 
 ## FAQ
 
-> Why Debian is used instead of Alpine for this image?
+> Why Debian is used instead of Alpine for this image? Why not Debian slim variant?
 
-Builds don't work on Alpine. Not sure why yet. Not a `glibcc` issue.
+Builds don't work on Alpine. Not sure why yet. Not a `glibcc` issue. OpenJDK doesn't work on Debian slim.
+It shouldn't make much difference anyway - Android SDKs are heavy enough. This may change in the future.
 
-> Why not at least slim image?
+> Why these exact versions of SDK are chosen?
 
-Builds don't work on slim. Installing OpenJDK fails.
+Because I need these, but feel free to fork/install what's missing for you.
 
-> Why these exact versions of SDK are choosen?
+> Does it work on Windows?
 
-Because I need these, but feel free to fork.
+Yes.
 
 ## License
 
