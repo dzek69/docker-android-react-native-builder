@@ -23,6 +23,10 @@ Two volumes are required for this image to work. Third volume is optional.
 
 - `/tmp/app` is where your app should be mounted, you can mount it as read-only
 - `/result` is where your app apk file will be stored, keep it writable
+> **Important** - by "writable" I mean that docker user UID=1000 must be able to write to it. If you run Docker on Linux
+without host directory existing - Docker will create it for you using Docker Daemon user (usually root), which will make
+it unwritable from inside container. It is recommended just to create result dir before running `docker run` and run
+`chmod g+w /path/to/dir` on it.
 - **(optional)** `/home/node/` is where caches are written
 > Caches includes yarn and gradle cache, both will improve build time significantly if you keep cache folder alive
 between builds.
